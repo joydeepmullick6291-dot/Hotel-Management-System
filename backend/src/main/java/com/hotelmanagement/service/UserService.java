@@ -1,0 +1,7 @@
+package com.hotelmanagement.service;
+import com.hotelmanagement.dto.UserRegistrationDTO; import com.hotelmanagement.entity.User; import com.hotelmanagement.repository.UserRepository; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.security.crypto.password.PasswordEncoder; import org.springframework.stereotype.Service; import org.springframework.transaction.annotation.Transactional; import java.util.List; import java.util.Optional;
+@Service public class UserService {
+ @Autowired private UserRepository userRepository; @Autowired private PasswordEncoder passwordEncoder;
+ @Transactional public User registerUser(UserRegistrationDTO d){if(userRepository.existsByUsername(d.getUsername()))throw new RuntimeException("Username already exists");if(userRepository.existsByEmail(d.getEmail()))throw new RuntimeException("Email already exists");User u=new User();u.setUsername(d.getUsername());u.setEmail(d.getEmail());u.setPassword(passwordEncoder.encode(d.getPassword()));u.setFirstName(d.getFirstName());u.setLastName(d.getLastName());u.setPhoneNumber(d.getPhoneNumber());u.setRole("CUSTOMER");return userRepository.save(u);}
+ public Optional<User> findByUsername(String u){return userRepository.findByUsername(u);} public User getUserById(Long id){return userRepository.findById(id).orElseThrow(()->new RuntimeException("User not found"));} public List<User> getAllUsers(){return userRepository.findAll();}
+}

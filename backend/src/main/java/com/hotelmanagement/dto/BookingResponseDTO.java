@@ -1,0 +1,7 @@
+package com.hotelmanagement.dto;
+import java.math.BigDecimal;
+public class BookingResponseDTO {
+ private Long id; private String confirmationCode; private String bookingStatus; private String checkInDate; private String checkOutDate; private BigDecimal totalPrice; private String message;
+ public BookingResponseDTO(Long id,String confirmationCode,String bookingStatus,String checkInDate,String checkOutDate,BigDecimal totalPrice,String message){this.id=id;this.confirmationCode=confirmationCode;this.bookingStatus=bookingStatus;this.checkInDate=checkInDate;this.checkOutDate=checkOutDate;this.totalPrice=totalPrice;this.message=message;}
+ public Long getId(){return id;} public void setId(Long v){id=v;} public String getConfirmationCode(){return confirmationCode;} public void setConfirmationCode(String v){confirmationCode=v;} public String getBookingStatus(){return bookingStatus;} public void setBookingStatus(String v){bookingStatus=v;} public String getCheckInDate(){return checkInDate;} public void setCheckInDate(String v){checkInDate=v;} public String getCheckOutDate(){return checkOutDate;} public void setCheckOutDate(String v){checkOutDate=v;} public BigDecimal getTotalPrice(){return totalPrice;} public void setTotalPrice(BigDecimal v){totalPrice=v;} public String getMessage(){return message;} public void setMessage(String v){message=v;}
+}

@@ -1,0 +1,8 @@
+package com.hotelmanagement.entity;
+import jakarta.persistence.*; import java.util.List; import com.fasterxml.jackson.annotation.JsonManagedReference;
+@Entity @Table(name="HOTELS") public class Hotel {
+ @Id @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="hotels_seq_gen") @SequenceGenerator(name="hotels_seq_gen",sequenceName="HOTELS_SEQ",allocationSize=1) @Column(name="ID") private Long id;
+ @Column(nullable=false,name="NAME") private String name; @Column(name="LOCATION") private String location; @Lob @Column(name="DESCRIPTION") private String description; @Column(name="STAR_RATING") private Double starRating; @Column(name="PHONE") private String phone; @Column(name="EMAIL") private String email;
+ @OneToMany(mappedBy="hotel",cascade=CascadeType.ALL,fetch=FetchType.LAZY) @JsonManagedReference private List<Room> rooms;
+ public Hotel(){} public Long getId(){return id;} public void setId(Long v){id=v;} public String getName(){return name;} public void setName(String v){name=v;} public String getLocation(){return location;} public void setLocation(String v){location=v;} public String getDescription(){return description;} public void setDescription(String v){description=v;} public Double getStarRating(){return starRating;} public void setStarRating(Double v){starRating=v;} public String getPhone(){return phone;} public void setPhone(String v){phone=v;} public String getEmail(){return email;} public void setEmail(String v){email=v;} public List<Room> getRooms(){return rooms;} public void setRooms(List<Room> v){rooms=v;}
+}

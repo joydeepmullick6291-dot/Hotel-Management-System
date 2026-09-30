@@ -1,0 +1,9 @@
+package com.hotelmanagement.entity;
+import jakarta.persistence.*; import java.math.BigDecimal; import java.util.List; import com.fasterxml.jackson.annotation.*;
+@Entity @Table(name="ROOMS") public class Room {
+ @Id @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="rooms_seq_gen") @SequenceGenerator(name="rooms_seq_gen",sequenceName="ROOMS_SEQ",allocationSize=1) @Column(name="ID") private Long id;
+ @ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name="HOTEL_ID",nullable=false) @JsonBackReference("hotel-rooms") private Hotel hotel;
+ @Column(unique=true,nullable=false,name="ROOM_NUMBER") private String roomNumber; @Column(nullable=false,name="ROOM_TYPE") private String roomType; @Column(nullable=false,name="PRICE_PER_NIGHT") private BigDecimal pricePerNight; @Column(name="CAPACITY") private Integer capacity; @Column(name="DESCRIPTION") private String description; @Column(name="IS_AVAILABLE") private Boolean isAvailable=true;
+ @JsonIgnore @OneToMany(mappedBy="room",cascade=CascadeType.ALL,fetch=FetchType.LAZY) private List<Booking> bookings;
+ public Room(){} public Long getId(){return id;} public void setId(Long v){id=v;} public Hotel getHotel(){return hotel;} public void setHotel(Hotel v){hotel=v;} public String getRoomNumber(){return roomNumber;} public void setRoomNumber(String v){roomNumber=v;} public String getRoomType(){return roomType;} public void setRoomType(String v){roomType=v;} public BigDecimal getPricePerNight(){return pricePerNight;} public void setPricePerNight(BigDecimal v){pricePerNight=v;} public Integer getCapacity(){return capacity;} public void setCapacity(Integer v){capacity=v;} public String getDescription(){return description;} public void setDescription(String v){description=v;} public Boolean getIsAvailable(){return isAvailable;} public void setIsAvailable(Boolean v){isAvailable=v;} public List<Booking> getBookings(){return bookings;} public void setBookings(List<Booking> v){bookings=v;}
+}

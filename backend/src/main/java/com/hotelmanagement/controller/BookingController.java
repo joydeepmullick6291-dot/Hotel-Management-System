@@ -1,0 +1,12 @@
+package com.hotelmanagement.controller;
+import com.hotelmanagement.dto.BookingDTO; import com.hotelmanagement.entity.Booking; import com.hotelmanagement.service.BookingService; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.http.*; import org.springframework.web.bind.annotation.*; import java.util.*;
+@RestController @RequestMapping("/api/bookings") @CrossOrigin(origins="*") public class BookingController {
+ @Autowired private BookingService bookingService;
+ @PostMapping public ResponseEntity<Map<String,Object>> createBooking(@RequestParam Long userId,@RequestBody BookingDTO d){try{Map<String,Object> r=bookingService.createBooking(userId,d);r.put("message","Booking created successfully");return ResponseEntity.ok(r);}catch(Exception e){return ResponseEntity.badRequest().body(new HashMap<>(Map.of("error",e.getMessage())));}}
+ @GetMapping public ResponseEntity<?> getUserBookings(@RequestParam Long userId){try{return ResponseEntity.ok(bookingService.getUserBookings(userId));}catch(Exception e){return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));}}
+ @GetMapping("/{id}") public ResponseEntity<?> getBookingById(@PathVariable Long id){try{return ResponseEntity.ok(bookingService.getBookingById(id));}catch(Exception e){return ResponseEntity.status(404).body(Map.of("error",e.getMessage()));}}
+ @GetMapping("/all") public ResponseEntity<?> getAllBookings(){try{return ResponseEntity.ok(bookingService.getAllBookings());}catch(Exception e){return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));}}
+ @DeleteMapping("/{bookingId}/cancel") public ResponseEntity<?> cancelBooking(@PathVariable Long bookingId,@RequestParam Long userId){try{bookingService.cancelBooking(bookingId,userId);return ResponseEntity.ok(Map.of("message","Booking cancelled successfully","bookingId",bookingId));}catch(Exception e){return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));}}
+ @PutMapping("/{id}/cancel") public ResponseEntity<?> cancelBookingPut(@PathVariable Long id){try{return ResponseEntity.ok(bookingService.cancelBooking(id));}catch(Exception e){return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));}}
+ @GetMapping("/confirmation/{confirmationCode}") public ResponseEntity<?> getBookingByConfirmationCode(@PathVariable String c){try{return ResponseEntity.ok(bookingService.getBookingByConfirmationCode(c));}catch(Exception e){return ResponseEntity.status(404).body(Map.of("error",e.getMessage()));}}
+}
